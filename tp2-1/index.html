@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelajaran Informatika Kelas 12 - TP2-1</title>
+    <!-- Ikon Beranimasi via FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(120deg, #4facfe 0%, #00f2fe 100%);
+            --card-header: #7B1E7A; /* Ungu gelap seperti di gambar */
+            --card-body: #FFF8E1;   /* Kuning pastel terang */
+            --text-dark: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navigasi Warna Warni Interaktif */
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-nav {
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        
+        .btn-nav:hover {
+            transform: scale(1.1) translateY(-5px);
+            filter: brightness(1.2);
+        }
+
+        .c-purple { background-color: #800080; }
+        .c-blue { background-color: #0000FF; }
+        .c-green { background-color: #008000; }
+        .c-yellow { background-color: #CCCC00; color: #000; }
+        .c-orange { background-color: #FFA500; }
+        .c-red { background-color: #FF0000; }
+
+        /* Header Teks Beranimasi */
+        header {
+            text-align: center;
+            padding: 30px 15px;
+            color: white;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header h2, header h1, header h3 { margin: 5px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); }
+        header h2 { font-size: 1.2rem; color: #FFD700; }
+        header h1 { font-size: 2.2rem; text-transform: uppercase; }
+        header h3 { font-size: 1.5rem; }
+        header p { margin: 5px 0; font-size: 1.1rem; font-weight: bold; }
+
+        /* Kontainer Utama */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 15px 40px 15px;
+        }
+
+        /* Pertanyaan Pemantik */
+        .pemantik {
+            background-color: #FF6B6B;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+
+        /* Desain Kartu */
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            animation: slideUp 1s ease-out;
+        }
+
+        .card-header {
+            background-color: var(--card-header);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 4px dashed #FFD700;
+        }
+
+        .card-body {
+            background-color: var(--card-body);
+            padding: 25px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .card-body ul, .card-body ol {
+            padding-left: 20px;
+        }
+
+        .card-body li {
+            margin-bottom: 10px;
+        }
+
+        /* Form Kuis */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--card-header);
+        }
+
+        .form-group input[type="text"], .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input[type="text"]:focus, .form-group textarea:focus {
+            border-color: var(--card-header);
+            outline: none;
+        }
+
+        .soal-blok {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--card-header);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .soal-blok p { margin-top: 0; font-weight: bold; }
+        
+        .opsi-label {
+            display: block;
+            padding: 8px;
+            margin: 5px 0;
+            background: #f4f4f4;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .opsi-label:hover { background: #e0e0e0; }
+
+        .btn-submit {
+            background: linear-gradient(45deg, #FF512F, #DD2476);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(221, 36, 118, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(221, 36, 118, 0.6);
+        }
+
+        /* FLOATING MENU BUTTON */
+        .floating-menu-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #7B1E7A, #DD2476);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .floating-menu-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            color: #FFD700;
+        }
+
+        /* Animasi */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        #loading { display: none; text-align: center; margin-top: 20px; font-weight: bold; color: white; }
+    </style>
+</head>
+<body id="top"> <!-- Tambahkan id="top" untuk target tombol kembali ke menu -->
+
+    <!-- Navigasi -->
+    <nav>
+        <a href="#materi" class="btn-nav c-purple"><i class="fas fa-book-open fa-bounce"></i> Materi</a>
+        <a href="#kuis" class="btn-nav c-orange"><i class="fas fa-pencil-alt fa-flip"></i> Kuis Interaktif</a>
+        <a href="#motivasi" class="btn-nav c-green"><i class="fas fa-star fa-spin"></i> Motivasi</a>
+    </nav>
+
+    <!-- Header Sesuai Instruksi -->
+    <header>
+        <h2>Mata Pelajaran: Informatika Kelas 12</h2>
+        <h1>Algoritma dan Pemrograman (Python)</h1>
+        <h3>TP2-1 - KONSEP DASAR ALGORITMA</h3>
+        <p id="tanggalHariIni"><i class="fas fa-calendar-alt"></i> Memuat tanggal...</p>
+        <p>SMA ADVENT BATAM</p>
+        <p><i class="fas fa-chalkboard-teacher"></i> Guru : Ir. Budhy Prasetyo</p>
+    </header>
+
+    <div class="container">
+        <!-- Pertanyaan Pemantik -->
+        <div class="pemantik">
+            <i class="fas fa-lightbulb fa-2x" style="color: yellow; margin-bottom: 10px;"></i><br>
+            <strong>Pertanyaan Pemantik:</strong><br>
+            Pernahkah kamu kebingungan saat merakit mainan baru atau memasak resep masakan karena petunjuknya berantakan? Apa jadinya jika komputer yang patuh diberi petunjuk yang berantakan?
+        </div>
+
+        <!-- Materi Bagian 1 -->
+        <div class="card" id="materi">
+            <div class="card-header"><i class="fas fa-search"></i> Bagian 1: Apa Itu Algoritma?</div>
+            <div class="card-body">
+                Algoritma adalah urutan langkah-langkah untuk menyelesaikan sebuah masalah atau melakukan suatu pekerjaan. Langkah-langkah ini harus ditulis dengan sangat jelas dan berurutan dari awal sampai akhir.
+                <br><br>
+                Bayangkan algoritma seperti buku resep masakan. Jika kamu ingin memasak mie instan, kamu harus mengikuti urutan di resep. Kamu tidak bisa memakan mie sebelum merebusnya. Kamu juga tidak bisa membuang air rebusan jika mienya belum dimasukkan. Urutan itu sangat penting.
+            </div>
+        </div>
+
+        <!-- Materi Bagian 2 -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-robot"></i> Bagian 2: Mengapa Kita Membutuhkan Algoritma?</div>
+            <div class="card-body">
+                Komputer adalah mesin yang sangat patuh, tetapi komputer tidak pintar. Komputer tidak bisa berpikir sendiri seperti manusia. Jika kamu memberi perintah yang tidak jelas, komputer akan bingung atau melakukan kesalahan.
+                <br><br>
+                Oleh karena itu, sebelum kita menyuruh komputer melakukan sesuatu (menggunakan bahasa pemrograman), kita harus menyusun algoritmanya terlebih dahulu. Kita harus berpikir runtut agar komputer bisa meniru langkah penyelesaian masalah yang kita buat.
+            </div>
+        </div>
+
+        <!-- Materi Bagian 3 -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-check-circle"></i> Bagian 3: Ciri-Ciri Algoritma yang Baik</div>
+            <div class="card-body">
+                Sebuah algoritma harus memiliki tiga syarat utama:
+                <ul>
+                    <li><strong>Ada Titik Awal dan Titik Akhir:</strong> Algoritma tidak boleh berjalan terus-menerus tanpa henti. Pekerjaan harus ada selesainya.</li>
+                    <li><strong>Sangat Jelas (Tidak Bermakna Ganda):</strong> Perintahnya harus tegas. Misalnya, jangan katakan "masukkan air secukupnya". Komputer tidak tahu apa itu "secukupnya". Katakan dengan pasti, "masukkan 200 mililiter air".</li>
+                    <li><strong>Berurutan secara Logis:</strong> Langkah pertama harus dilakukan sebelum langkah kedua, dan seterusnya.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Materi Bagian 4 -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-coffee"></i> Bagian 4: Contoh Algoritma Sederhana</div>
+            <div class="card-body">
+                <strong>Masalah: Membuat segelas teh manis panas.</strong><br>
+                Langkah-langkah algoritma:
+                <ol>
+                    <li>Mulai.</li>
+                    <li>Siapkan gelas, teh celup, gula, dan air panas.</li>
+                    <li>Masukkan teh celup ke dalam gelas.</li>
+                    <li>Masukkan satu sendok makan gula ke dalam gelas.</li>
+                    <li>Tuangkan air panas ke dalam gelas sampai hampir penuh.</li>
+                    <li>Aduk menggunakan sendok sampai gula larut.</li>
+                    <li>Teh manis panas siap diminum.</li>
+                    <li>Selesai.</li>
+                </ol>
+                Jika kamu membalik urutannya, misalnya langkah 5 dilakukan sebelum langkah 2, maka air panas akan tumpah karena gelasnya belum disiapkan. Inilah bukti bahwa urutan logika adalah kunci utama sebelum kita membuat kode komputer.
+            </div>
+        </div>
+
+        <!-- Kuis Interaktif -->
+        <div class="card" id="kuis">
+            <div class="card-header c-orange"><i class="fas fa-gamepad"></i> LEMBAR KERJA SISWA (KUIS)</div>
+            <div class="card-body">
+                <form id="quizForm">
+                    <div class="form-group">
+                        <label>Nama Lengkap :</label>
+                        <input type="text" id="nama" name="Nama Lengkap" required placeholder="Masukkan nama lengkapmu...">
+                    </div>
+                    <div class="form-group">
+                        <label>Kelas :</label>
+                        <input type="text" id="kelas" name="Kelas" required placeholder="Contoh: XII IPA 1">
+                    </div>
+
+                    <h3 style="color: var(--card-header); border-bottom: 2px solid; padding-bottom: 5px;">A. SOAL PILIHAN GANDA (Pilih satu jawaban)</h3>
+                    
+                    <div class="soal-blok">
+                        <p>1. Apakah pengertian dari algoritma?</p>
+                        <label class="opsi-label"><input type="radio" name="pg1" value="A" required> A. Alat untuk merusak komputer.</label>
+                        <label class="opsi-label"><input type="radio" name="pg1" value="B"> B. Urutan langkah-langkah untuk menyelesaikan masalah.</label>
+                        <label class="opsi-label"><input type="radio" name="pg1" value="C"> C. Bahasa asing yang digunakan oleh robot.</label>
+                        <label class="opsi-label"><input type="radio" name="pg1" value="D"> D. Mesin canggih di dalam komputer.</label>
+                        <label class="opsi-label"><input type="radio" name="pg1" value="E"> E. Kabel yang menyambungkan layar ke mesin utama.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>2. Mengapa langkah-langkah dalam algoritma harus berurutan?</p>
+                        <label class="opsi-label"><input type="radio" name="pg2" value="A" required> A. Agar tulisan terlihat rapi.</label>
+                        <label class="opsi-label"><input type="radio" name="pg2" value="B"> B. Supaya kertas yang digunakan tidak banyak.</label>
+                        <label class="opsi-label"><input type="radio" name="pg2" value="C"> C. Agar pekerjaan berhasil diselesaikan tanpa kesalahan.</label>
+                        <label class="opsi-label"><input type="radio" name="pg2" value="D"> D. Karena komputer suka angka yang berurutan.</label>
+                        <label class="opsi-label"><input type="radio" name="pg2" value="E"> E. Supaya pembuatnya cepat kaya.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>3. Komputer membutuhkan algoritma karena komputer memiliki sifat dasar...</p>
+                        <label class="opsi-label"><input type="radio" name="pg3" value="A" required> A. Bisa berpikir sendiri.</label>
+                        <label class="opsi-label"><input type="radio" name="pg3" value="B"> B. Sangat pintar menebak keinginan manusia.</label>
+                        <label class="opsi-label"><input type="radio" name="pg3" value="C"> C. Patuh namun tidak bisa berpikir tanpa perintah yang jelas.</label>
+                        <label class="opsi-label"><input type="radio" name="pg3" value="D"> D. Mudah lelah jika bekerja terlalu lama.</label>
+                        <label class="opsi-label"><input type="radio" name="pg3" value="E"> E. Suka melanggar aturan.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>4. Manakah di bawah ini yang merupakan contoh algoritma di kehidupan sehari-hari?</p>
+                        <label class="opsi-label"><input type="radio" name="pg4" value="A" required> A. Membaca buku cerita.</label>
+                        <label class="opsi-label"><input type="radio" name="pg4" value="B"> B. Petunjuk langkah demi langkah merakit mainan balok.</label>
+                        <label class="opsi-label"><input type="radio" name="pg4" value="C"> C. Menonton televisi seharian.</label>
+                        <label class="opsi-label"><input type="radio" name="pg4" value="D"> D. Tidur siang di kamar.</label>
+                        <label class="opsi-label"><input type="radio" name="pg4" value="E"> E. Menangis karena mainan rusak.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>5. Sebuah algoritma yang baik harus memiliki awal dan...</p>
+                        <label class="opsi-label"><input type="radio" name="pg5" value="A" required> A. Hadiah.</label>
+                        <label class="opsi-label"><input type="radio" name="pg5" value="B"> B. Hukuman.</label>
+                        <label class="opsi-label"><input type="radio" name="pg5" value="C"> C. Suara.</label>
+                        <label class="opsi-label"><input type="radio" name="pg5" value="D"> D. Gambar.</label>
+                        <label class="opsi-label"><input type="radio" name="pg5" value="E"> E. Akhir (selesai).</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>6. Perintah "masukkan garam secukupnya" adalah perintah yang buruk untuk komputer. Mengapa?</p>
+                        <label class="opsi-label"><input type="radio" name="pg6" value="A" required> A. Karena komputer tidak suka makan garam.</label>
+                        <label class="opsi-label"><input type="radio" name="pg6" value="B"> B. Karena kata "secukupnya" bermakna ganda dan tidak pasti.</label>
+                        <label class="opsi-label"><input type="radio" name="pg6" value="C"> C. Karena garam akan membuat komputer rusak.</label>
+                        <label class="opsi-label"><input type="radio" name="pg6" value="D"> D. Karena komputer hanya suka gula.</label>
+                        <label class="opsi-label"><input type="radio" name="pg6" value="E"> E. Karena komputer tidak bisa pergi ke dapur.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>7. Apa yang harus dilakukan oleh seorang pembuat program sebelum mulai mengetik kode pemrograman?</p>
+                        <label class="opsi-label"><input type="radio" name="pg7" value="A" required> A. Membeli komputer baru.</label>
+                        <label class="opsi-label"><input type="radio" name="pg7" value="B"> B. Menghapus semua data di komputer.</label>
+                        <label class="opsi-label"><input type="radio" name="pg7" value="C"> C. Menyusun algoritma pemecahan masalah terlebih dahulu.</label>
+                        <label class="opsi-label"><input type="radio" name="pg7" value="D"> D. Menghafal seluruh isi buku pelajaran.</label>
+                        <label class="opsi-label"><input type="radio" name="pg7" value="E"> E. Bermain permainan komputer agar tidak stres.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>8. Jika urutan algoritma dibolak-balik, apa yang kemungkinan besar akan terjadi?</p>
+                        <label class="opsi-label"><input type="radio" name="pg8" value="A" required> A. Komputer menjadi semakin cepat.</label>
+                        <label class="opsi-label"><input type="radio" name="pg8" value="B"> B. Tujuan atau hasil akhir tidak akan tercapai, dan pekerjaan akan gagal.</label>
+                        <label class="opsi-label"><input type="radio" name="pg8" value="C"> C. Komputer akan memperbaiki urutannya sendiri secara otomatis.</label>
+                        <label class="opsi-label"><input type="radio" name="pg8" value="D"> D. Komputer akan tertawa.</label>
+                        <label class="opsi-label"><input type="radio" name="pg8" value="E"> E. Masalah akan terselesaikan lebih cepat dari sebelumnya.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>9. Manakah perintah di bawah ini yang paling jelas dan pasti (tidak ambigu)?</p>
+                        <label class="opsi-label"><input type="radio" name="pg9" value="A" required> A. Jalan ke depan sedikit lagi.</label>
+                        <label class="opsi-label"><input type="radio" name="pg9" value="B"> B. Masukkan air panas ke dalam cangkir.</label>
+                        <label class="opsi-label"><input type="radio" name="pg9" value="C"> C. Maju sebanyak 5 langkah ke arah depan.</label>
+                        <label class="opsi-label"><input type="radio" name="pg9" value="D"> D. Tambahkan gula agak banyak.</label>
+                        <label class="opsi-label"><input type="radio" name="pg9" value="E"> E. Tunggu sebentar saja.</label>
+                    </div>
+
+                    <div class="soal-blok">
+                        <p>10. Langkah pertama dalam algoritma membuat teh manis adalah "Mulai". Apa langkah terakhirnya?</p>
+                        <label class="opsi-label"><input type="radio" name="pg10" value="A" required> A. Selesai.</label>
+                        <label class="opsi-label"><input type="radio" name="pg10" value="B"> B. Buang tehnya.</label>
+                        <label class="opsi-label"><input type="radio" name="pg10" value="C"> C. Beli teh baru.</label>
+                        <label class="opsi-label"><input type="radio" name="pg10" value="D"> D. Masukkan gula.</label>
+                        <label class="opsi-label"><input type="radio" name="pg10" value="E"> E. Tidur.</label>
+                    </div>
+
+                    <h3 style="color: var(--card-header); border-bottom: 2px solid; padding-bottom: 5px; margin-top: 30px;">B. SOAL ESAI</h3>
+
+                    <div class="form-group">
+                        <label>1. Tuliskan pengertian algoritma menggunakan bahasamu sendiri!</label>
+                        <textarea rows="3" name="Esai1" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>2. Jelaskan mengapa urutan langkah dalam algoritma tidak boleh dibolak-balik!</label>
+                        <textarea rows="3" name="Esai2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>3. Komputer tidak bisa memahami instruksi yang bermakna ganda (ambigu). Jelaskan apa yang dimaksud dengan bermakna ganda dan berikan satu contoh kalimat perintah yang bermakna ganda!</label>
+                        <textarea rows="3" name="Esai3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>4. Mengapa menyusun algoritma sangat penting dilakukan sebelum membuat program komputer?</label>
+                        <textarea rows="3" name="Esai4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>5. Buatlah sebuah algoritma sederhana (langkah demi langkah) cara mencuci satu piring kotor! Pastikan ada langkah "Mulai" dan "Selesai".</label>
+                        <textarea rows="4" name="Esai5" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Kirim Jawaban & Cek Nilai</button>
+                    <div id="loading">Sedang memproses dan merekap nilai... Mohon tunggu...</div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Kartu Motivasi -->
+        <div class="card" id="motivasi">
+            <div class="card-header c-green" style="color: white; border-bottom: 4px dashed #FFD700;"><i class="fas fa-star fa-spin"></i> Motivasi Belajar</div>
+            <div class="card-body" style="text-align: center;">
+                <h3 style="color: #008000;">"Setiap ahli pada awalnya adalah seorang pemula."</h3>
+                <p>Belajar algoritma dan pemrograman mungkin terasa rumit pada awalnya karena kita sedang belajar 'bahasa' baru untuk berkomunikasi dengan mesin. Jangan menyerah jika kamu membuat kesalahan atau kode programmu mengalami <em>error</em>. Di dunia Informatika, <em>error</em> bukanlah sebuah kegagalan, melainkan petunjuk bahwa kamu sedang selangkah lebih dekat menuju solusi!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Tombol Floating Kembali ke Menu -->
+    <a href="#top" class="floating-menu-btn">
+        <i class="fas fa-bars fa-beat"></i> Menu
+    </a>
+
+    <script>
+        // Set Tanggal Hari Ini Secara Real Time dalam Bahasa Indonesia
+        const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById("tanggalHariIni").innerHTML = `<i class="fas fa-calendar-alt"></i> ` + new Date().toLocaleDateString('id-ID', opsiTanggal);
+
+        // Kunci Jawaban Pilihan Ganda
+        const kunciJawaban = {
+            pg1: "B", pg2: "C", pg3: "C", pg4: "B", pg5: "E",
+            pg6: "B", pg7: "C", pg8: "B", pg9: "C", pg10: "A"
+        };
+
+        // URL Web App Google Apps Script 
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyY1Jf2paIlNpX-jiL24M-Md3lH9o9Bs6C8wEllM2atjWLmaegFz3nGObGmaR4G4-S5jw/exec'; 
+        
+        const form = document.getElementById('quizForm');
+        
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.btn-submit').style.display = 'none';
+
+            // Menghitung Nilai Pilihan Ganda (Total 10 Soal = Max 100)
+            let skor = 0;
+            const formData = new FormData(form);
+            
+            for (let i = 1; i <= 10; i++) {
+                if(formData.get('pg' + i) === kunciJawaban['pg' + i]) {
+                    skor += 10;
+                }
+            }
+
+            let keterangan = skor >= 70 ? "Tuntas (Lulus)" : "Belum Tuntas (Remedial)";
+
+            // Menyiapkan data untuk dikirim ke Google Sheets
+            let finalData = new URLSearchParams();
+            finalData.append("Nama Lengkap", formData.get("Nama Lengkap"));
+            finalData.append("Kelas", formData.get("Kelas"));
+            finalData.append("Nilai", skor);
+            finalData.append("Keterangan", keterangan);
+
+            // Fetch ke Google Sheets
+            fetch(scriptURL, { method: 'POST', body: finalData })
+                .then(response => {
+                    alert(`Kuis Berhasil Dikumpulkan!\nNama: ${formData.get("Nama Lengkap")}\nSkor Pilihan Ganda: ${skor} / 100\nKeterangan: ${keterangan}\n\nJawaban Esai Anda akan diperiksa secara manual oleh guru.`);
+                    form.reset();
+                    document.getElementById('loading').style.display = 'none';
+                    document.querySelector('.btn-submit').style.display = 'block';
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan saat mengirim jawaban. Pastikan Anda telah memasukkan URL Web App Apps Script dengan benar.');
+                    console.error('Error!', error.message);
+                    document.getElementById('loading').style.display = 'none';
+                    document.querySelector('.btn-submit').style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html>
